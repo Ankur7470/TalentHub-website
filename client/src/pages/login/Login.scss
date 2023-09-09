@@ -1,0 +1,123 @@
+//1////
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // background-color: aqua;
+
+  form {
+    width: 360px;
+    padding: 100px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    h1 {
+      color: gray;
+      margin-bottom: 20px;
+    }
+
+    label {
+      color: gray;
+      font-size: 18px;
+    }
+
+    input,
+    textarea {
+      padding: 20px;
+      border: 1px solid rgb(216, 214, 214);
+    }
+
+    button {
+      border: none;
+      padding: 20px;
+      color: white;
+      font-weight: 500;
+      font-size: 18px;
+      background-color: #3053e1;
+      cursor: pointer;
+    }
+
+    span{
+      color: red;
+      font-size: 12px;
+    }
+  }
+}
+
+// ////2/////
+// .login {
+//     background: linear-gradient(to right, #1e3c72, #2a5298); /* Gradient background */
+//     color: #fff; /* Light text color */
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: center;
+//     height: 100vh;
+//     font-family: 'Roboto', sans-serif;
+
+//     form {
+//       background: rgba(0, 0, 0, 0.7); /* Slightly transparent dark background */
+//       padding: 20px;
+//       border-radius: 8px;
+//       text-align: center;
+//       width: 300px;
+//       box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5); /* Box shadow for a lift effect */
+//       transform: scale(1);
+//       transition: transform 0.3s ease; /* Animation for form scaling */
+
+//       &:hover {
+//         transform: scale(1.02); /* Scale up on hover */
+//       }
+
+//       h1 {
+//         color: #3498db; /* Header text color (blue) */
+//         margin-bottom: 20px;
+//         font-size: 24px;
+//       }
+
+//       label {
+//         display: block;
+//         margin-bottom: 5px;
+//         color: #ccc; /* Label text color (light gray) */
+//         font-size: 14px;
+//         text-align: left;
+//       }
+
+//       input {
+//         width: 100%;
+//         padding: 10px;
+//         margin-bottom: 10px;
+//         border: none;
+//         border-radius: 4px;
+//         background: rgba(255, 255, 255, 0.1); /* Slightly transparent input background */
+//         color: #fff; /* Input text color (light) */
+//         transition: background 0.3s ease;
+
+//         &:focus {
+//           background: rgba(255, 255, 255, 0.3); /* Input background on focus */
+//           outline: none;
+//         }
+//       }
+
+//       button {
+//         background: #e74c3c; /* Button background color (red) */
+//         color: #fff; /* Button text color (light) */
+//         border: none;
+//         border-radius: 4px;
+//         padding: 10px 15px;
+//         cursor: pointer;
+//         transition: background 0.3s ease;
+
+//         &:hover {
+//           background: #c0392b; /* Button background color on hover (darker red) */
+//         }
+//       }
+
+//       .error {
+//         color: #e74c3c; /* Error message text color (red) */
+//         margin-top: 10px;
+//         font-size: 14px;
+//       }
+//     }
+//   }
