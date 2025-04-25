@@ -21,8 +21,6 @@
         color: #555;
       }
 
-     
-
       .user {
         display: flex;
         align-items: center;
@@ -58,13 +56,67 @@
         }
       }
 
-      .slider {
+      /* Embla Carousel Styles */
+      .embla {
+        position: relative;
         background-color: #F5F5F5;
-        img {
-          max-height: 500px;
-          object-fit: contain;
+        overflow: hidden;
+        
+        &.slider {
+          img {
+            max-height: 500px;
+            object-fit: contain;
+          }
         }
       }
+
+      .embla__container {
+        display: flex;
+      }
+
+      .embla__slide {
+        flex: 0 0 100%;
+        min-width: 0;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .embla__prev,
+      .embla__next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.7);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.9);
+        }
+      }
+
+      .embla__prev {
+        left: 10px;
+      }
+
+      .embla__next {
+        right: 10px;
+      }
+
+      .embla-container {
+        position: relative;
+      }
+      /* End Embla Carousel Styles */
 
       h2 {
         font-weight: 400;
