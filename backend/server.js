@@ -73,8 +73,8 @@ const app = express();
 dotenv.config();
 
 mongoose.set("strictQuery", true);
-
-app.use(cors({origin: "https://talent-hub-website-frontend-7nn9ki0cv-ankur7470.vercel.app", credentials: true}));
+app.use(cors({origin: "https://talent-hub-website-frontend.vercel.app", credentials:true}));
+// app.use(cors({origin: "https://talent-hub-website-frontend-7nn9ki0cv-ankur7470.vercel.app", credentials: true}));
 app.use(cookieParser());
 app.use(express.json());
 
