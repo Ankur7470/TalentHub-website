@@ -1,6 +1,143 @@
 * {
-  .link {
-    text-decoration: none;
-    color: inherit;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+:root {
+  --primary-color: #1dbf73;
+  --primary-dark: #0f9d58;
+  --secondary-color: #3053e1;
+  --text-color: #404145;
+  --light-text: #74767e;
+  --dark-bg: #0d084d;
+  --light-bg: #f5f5f5;
+  --danger: #e63946;
+  --warning: #ffc108;
+  --border-color: #e4e5e7;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+}
+
+body {
+  color: var(--text-color);
+  background-color: #fff;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+  
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  transition: var(--transition);
+  
+  &:hover {
+    opacity: 0.9;
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.primary-btn {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 20px;
+  font-weight: 500;
+}
+
+.secondary-btn {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 10px 20px;
+  font-weight: 500;
+}
+
+.outline-btn {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 10px 20px;
+  
+  &:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+}
+
+input, textarea, select {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 12px;
+  outline: none;
+  transition: var(--transition);
+  
+  &:focus {
+    border-color: var(--primary-color);
+  }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 18px;
+  color: var(--light-text);
+}
+
+.error {
+  color: var(--danger);
+  text-align: center;
+  padding: 20px;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    max-width: 100%;
+    padding: 0 15px;
   }
 }

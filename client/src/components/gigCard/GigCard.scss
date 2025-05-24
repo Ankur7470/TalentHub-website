@@ -1,99 +1,287 @@
-.gigCard {
-  width: 324px;
-  height: 400px;
-  // border: 1px solid rgb(237, 236, 236);
-  border: 1px solid black;
-  border-radius: 10px;
+// .gigCard {
+//   width: 324px;
+//   height: 400px;
+//   // border: 1px solid rgb(237, 236, 236);
+//   border: 1px solid black;
+//   border-radius: 10px;
   
-  margin-bottom: 40px;
+//   margin-bottom: 40px;
+//   background-color: white;
+
+//   img {
+//     border-radius: 10px 10px 0 0 ;
+//     width: 100%;
+//     height: 50%;
+//     object-fit: cover;
+//   }
+
+//   .info {
+//     padding: 10px 20px;
+//     display: flex;
+//     flex-direction: column;
+//     gap: 20px;
+
+//     .user {
+//       display: flex;
+//       align-items: center;
+//       gap: 10px;
+
+//       img {
+//         width: 26px;
+//         height: 26px;
+//         border-radius: 50%;
+//         object-fit: cover;
+//       }
+
+//       // span {
+//       // }
+//     }
+
+//     p {
+//       color: #111;
+//     }
+
+//     .star {
+//       display: flex;
+//       align-items: center;
+//       gap: 5px;
+
+//       img {
+//         height: 14px;
+//         width: 14px;
+//       }
+
+//       span {
+//         font-size: 14px;
+//         font-weight: bold;
+//         color: #ffc108;
+//       }
+//     }
+//   }
+
+//   hr {
+//     height: 0;
+//     border: 0.5px solid rgb(228, 228, 228);
+//   }
+
+//   .detail {
+//     padding: 10px 20px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+
+//     img {
+//       width: 16px;
+//       height: 16px;
+//       cursor: pointer;
+//       object-fit: cover;
+//     }
+
+//     .price {
+//       span {
+//         color: #999;
+//         font-size: 12px;
+//       }
+
+//       h2 {
+//         color: #555;
+//         font-size: 18px;
+//         font-weight: 400;
+//         text-align: end;
+//       }
+
+//       sup {
+//         font-size: 12px;
+//         font-weight: 300;
+//       }
+//     }
+//   }
+// }
+.gig-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.gigCard {
   background-color: white;
-
-  img {
-    border-radius: 10px 10px 0 0 ;
-    width: 100%;
-    height: 50%;
-    object-fit: cover;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    
+    .gig-image {
+      transform: scale(1.05);
+    }
   }
-
-  .info {
-    padding: 10px 20px;
+  
+  .image-container {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    
+    .gig-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .favorite-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: white;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: translateY(5px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      
+      svg {
+        color: #c5c6c9;
+        font-size: 16px;
+        transition: color 0.3s ease;
+      }
+      
+      &:hover svg {
+        color: #ff3366;
+      }
+    }
+    
+    &:hover .favorite-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .content {
+    padding: 15px;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-
+    gap: 12px;
+    
     .user {
       display: flex;
       align-items: center;
       gap: 10px;
-
+      
       img {
-        width: 26px;
-        height: 26px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
         object-fit: cover;
       }
-
-      // span {
-      // }
+      
+      span {
+        font-size: 14px;
+        color: #62646a;
+        font-weight: 500;
+      }
+      
+      &.error {
+        color: #e63946;
+        font-size: 12px;
+      }
     }
-
-    p {
-      color: #111;
+    
+    .user-skeleton {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      
+      .avatar-skeleton {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+      }
+      
+      .name-skeleton {
+        width: 80px;
+        height: 14px;
+        border-radius: 4px;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+      }
     }
-
-    .star {
+    
+    .title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #404145;
+      line-height: 1.4;
+      margin: 0;
+    }
+    
+    .rating {
       display: flex;
       align-items: center;
       gap: 5px;
-
-      img {
-        height: 14px;
-        width: 14px;
+      
+      .star-icon {
+        color: #ffb33e;
+        font-size: 16px;
       }
-
-      span {
+      
+      .score {
+        font-weight: 700;
         font-size: 14px;
-        font-weight: bold;
-        color: #ffc108;
+        color: #404145;
+      }
+      
+      .reviews {
+        font-size: 14px;
+        color: #74767e;
       }
     }
   }
-
-  hr {
-    height: 0;
-    border: 0.5px solid rgb(228, 228, 228);
-  }
-
-  .detail {
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    img {
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
-      object-fit: cover;
-    }
-
+  
+  .footer {
+    padding: 15px;
+    border-top: 1px solid #e4e5e7;
+    
     .price {
-      span {
-        color: #999;
+      display: flex;
+      flex-direction: column;
+      
+      .label {
         font-size: 12px;
+        color: #74767e;
       }
-
-      h2 {
-        color: #555;
+      
+      .amount {
         font-size: 18px;
-        font-weight: 400;
-        text-align: end;
+        font-weight: 600;
+        color: #404145;
       }
-
-      sup {
-        font-size: 12px;
-        font-weight: 300;
-      }
+    }
+  }
+  
+  @keyframes loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
     }
   }
 }

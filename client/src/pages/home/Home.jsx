@@ -1,197 +1,170 @@
 import React from "react";
 import "./Home.scss";
 import Featured from "../../components/featured/Featured";
-// import TrustedBy from "../../components/trustedBy/TrustedBy";
 import Slide from "../../components/slide/Slide";
 import CatCard from "../../components/catCard/CatCard";
 import ProjectCard from "../../components/projectCard/ProjectCard";
-import { cards, projects } from "../../data";
-import { useNavigate } from "react-router-dom";
+import { CATEGORIES } from "../../constants/categories";
+import { PROJECTS } from "../../constants/projects";
+import { Link } from "react-router-dom";
+import { FaCheck, FaArrowRight } from "react-icons/fa";
 
 function Home() {
-  const navigate = useNavigate();
+
   return (
-    <div className="home">
+    <div className="home-page">
       <Featured />
-      {/* <TrustedBy /> */}
-      {/* <button onClick={()=>navigate("/gigs")}>Enter to explore the World of Freelancers</button> */}
-      <Slide slidesToShow={5} arrowsScroll={5}>
-        {cards.map((card) => (
-          <CatCard key={card.id} card={card} />
-        ))}
-      </Slide>
-      <div className="features">
-        <div className="container">
-          <div className="item">
-            <h1>A whole world of freelance talent at your fingertips</h1>
-            <div className="title">
-              <img src="./img/check.png" alt="" />
-              The best for every budget
-            </div>
-            <p>
-              Find high-quality services at every price point. No hourly rates,
-              just project-based pricing.
-            </p>
-            <div className="title">
-              <img src="./img/check.png" alt="" />
-              Quality work done quickly
-            </div>
-            <p>
-              Find the right freelancer to begin working on your project within
-              minutes.
-            </p>
-            <div className="title">
-              <img src="./img/check.png" alt="" />
-              Protected payments, every time
-            </div>
-            <p>
-              Always know what you'll pay upfront. Your payment isn't released
-              until you approve the work.
-            </p>
-            <div className="title">
-              <img src="./img/check.png" alt="" />
-              24/7 support
-            </div>
-            <p>
-              Find high-quality services at every price point. No hourly rates,
-              just project-based pricing.
-            </p>
-          </div>
-          <div className="item">
-            {/* <video src="./img/video.mp4" controls /> */}
-          </div>
-        </div>
-      </div>
-      <div className="explore">
-        <div className="container">
-          <h1>Explore the marketplace</h1>
-          <div className="items">
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/graphics-design.d32a2f8.svg"
-                alt=""
-              />
-              <div className="line"></div>
-              <span>Graphics & Design</span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/online-marketing.74e221b.svg"
-                alt=""
-              />
-              <div className="line"></div>
 
-              <span>Digital Marketing</span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/writing-translation.32ebe2e.svg"
-                alt=""
-              />
-              <div className="line"></div>
-              <span>Writing & Translation</span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/video-animation.f0d9d71.svg"
-                alt=""
-              />
-              <div className="line"></div>
-              <span>Video & Animation</span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/music-audio.320af20.svg"
-                alt=""
-              />
-              <div className="line"></div>
-              <span>Music & Audio</span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/programming.9362366.svg"
-                alt=""
-              />
-              <div className="line"></div>
-              <span>Programming & Tech</span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/business.bbdf319.svg"
-                alt=""
-              />
-              <div className="line"></div>
-              <span>Business</span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/lifestyle.745b575.svg"
-                alt=""
-              />
-              <div className="line"></div>
-              <span>Lifestyle</span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/data.718910f.svg"
-                alt=""
-              />
-              <div className="line"></div>
-              <span>Data</span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/photography.01cf943.svg"
-                alt=""
-              />
-              <div className="line"></div>
-              <span>Photography</span>
+      <section className="categories-section">
+        <div className="container">
+          <h2>Popular Categories</h2>
+          <Slide slidesToShow={5} arrowsScroll={1}>
+            {CATEGORIES.map((category)=>(
+              (category.fet=="1" &&
+                <CatCard key={category.id} card={{
+                  id: category.id,
+                  title: category.title,
+                  desc: `Explore ${category.title} services`,
+                  img: category.img,
+                  cat: category.id
+                }} />
+              )
+            ))}
+          </Slide>
+        </div>
+      </section>
+
+      <section className="features-section">
+        <div className="container">
+          <div className="features-content">
+            <div className="features-text">
+              <h2>A whole world of freelance talent at your fingertips</h2>
+
+              <div className="feature-item">
+                <div className="feature-icon">
+                  <FaCheck />
+                </div>
+                <div className="feature-details">
+                  <h3>The best for every budget</h3>
+                  <p>
+                    Find high-quality services at every price point. No hourly rates,
+                    just project-based pricing.
+                  </p>
+                </div>
+              </div>
+
+              <div className="feature-item">
+                <div className="feature-icon">
+                  <FaCheck />
+                </div>
+                <div className="feature-details">
+                  <h3>Quality work done quickly</h3>
+                  <p>
+                    Find the right freelancer to begin working on your project within
+                    minutes.
+                  </p>
+                </div>
+              </div>
+
+              <div className="feature-item">
+                <div className="feature-icon">
+                  <FaCheck />
+                </div>
+                <div className="feature-details">
+                  <h3>Protected payments, every time</h3>
+                  <p>
+                    Always know what you'll pay upfront. Your payment isn't released
+                    until you approve the work.
+                  </p>
+                </div>
+              </div>
+
+              <div className="feature-item">
+                <div className="feature-icon">
+                  <FaCheck />
+                </div>
+                <div className="feature-details">
+                  <h3>24/7 support</h3>
+                  <p>
+                    Our round-the-clock support team is available to help anytime,
+                    anywhere.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="features dark">
+      </section>
+
+      <section className="marketplace-section">
         <div className="container">
-          <div className="item">
-            <h1>
-              TalentHub <i>business</i>
-            </h1>
-            <h1>
-              A business solution designed for <i>teams</i>
-            </h1>
-            <p>
-              Upgrade to a curated experience packed with tools and benefits,
-              dedicated to businesses
-            </p>
-            <div className="title">
-              <img src="./img/check.png" alt="" />
-              Connect to freelancers with proven business experience
-            </div>
-
-            <div className="title">
-              <img src="./img/check.png" alt="" />
-              Get matched with the perfect talent by a customer success manager
-            </div>
-
-            <div className="title">
-              <img src="./img/check.png" alt="" />
-              Manage teamwork and boost productivity with one powerful workspace
-            </div>
-            <button>Explore TalentHub Business</button>
-          </div>
-          <div className="item">
-            <img
-              src="https://fiverr-res.cloudinary.com/q_auto,f_auto,w_870,dpr_2.0/v1/attachments/generic_asset/asset/d9c17ceebda44764b591a8074a898e63-1599597624768/business-desktop-870-x2.png"
-              alt=""
-            />
+          <h2>Explore the marketplace</h2>
+          <div className="categories-grid">
+            {CATEGORIES.map((category)=>(
+              <Link to={`/gigs?cat=${category.value}`} className="category-item">
+              <img
+                src={category.image}
+                alt={category.title}
+              />
+              <div className="category-title">
+                <span>{category.title}</span>
+              </div>
+            </Link>
+            ))}
           </div>
         </div>
-      </div>
-      <Slide slidesToShow={4} arrowsScroll={4}>
-        {projects.map((card) => (
-          <ProjectCard key={card.id} card={card} />
-        ))}
-      </Slide>
+      </section>
+
+      <section className="business-section">
+        <div className="container">
+          <div className="business-content">
+            <div className="business-text">
+              <h2>
+                <span className="brand">TalentHub</span> <span className="highlight">Business</span>
+              </h2>
+              <h3>A business solution designed for teams</h3>
+              <p>
+                Upgrade to a curated experience packed with tools and benefits,
+                dedicated to businesses
+              </p>
+
+              <ul className="business-features">
+                <li>
+                  <FaCheck /> Connect to freelancers with proven business experience
+                </li>
+                <li>
+                  <FaCheck /> Get matched with the perfect talent by a customer success manager
+                </li>
+                <li>
+                  <FaCheck /> Manage teamwork and boost productivity with one powerful workspace
+                </li>
+              </ul>
+
+              <button className="business-btn">
+                Explore TalentHub Business <FaArrowRight />
+              </button>
+            </div>
+
+            <div className="business-image">
+              <img
+                src="https://fiverr-res.cloudinary.com/q_auto,f_auto,w_870,dpr_2.0/v1/attachments/generic_asset/asset/d9c17ceebda44764b591a8074a898e63-1599597624768/business-desktop-870-x2.png"
+                alt="TalentHub Business"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="projects-section">
+        <div className="container">
+          <h2>Inspiring work made on TalentHub</h2>
+          <Slide slidesToShow={4} arrowsScroll={1}>
+            {PROJECTS.map((card) => (
+              <ProjectCard key={card.id} card={card} />
+            ))}
+          </Slide>
+        </div>
+      </section>
     </div>
   );
 }

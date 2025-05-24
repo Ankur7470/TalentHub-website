@@ -1,41 +1,241 @@
-.reviews {
-    margin-top: 50px;
+// .reviews {
+//     margin-top: 50px;
   
-    .add {
-      margin-top: 20px;
+//     .add {
+//       margin-top: 20px;
+//       display: flex;
+//       flex-direction: column;
+//       gap: 20px;
+  
+//       .addForm {
+//         display: flex;
+//         flex-direction: column;
+//         gap: 20px;
+  
+//         input {
+//           padding: 20px;
+//         }
+  
+//         select {
+//           width: 200px;
+//           padding: 20px;
+//           align-self: flex-end;
+//         }
+//         button {
+//           align-self: flex-end;
+//           width: 100px;
+//           border: none;
+//           padding: 10px;
+//           color: white;
+//           background-color: #1dbf73;
+//           cursor: pointer;
+//         }
+//       }
+//     }
+  
+//     hr {
+//       height: 0;
+//       border: 0.5px solid lightgray;
+//       margin: 50px 0px;
+//     }
+//   }
+.reviews {
+  margin-top: 50px;
+  
+  .reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    
+    @media (max-width: 576px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #404145;
+      margin: 0;
+    }
+    
+    .reviews-summary {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      
+      .average-rating {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        
+        .star-icon {
+          color: #ffb33e;
+          font-size: 20px;
+        }
+        
+        span {
+          font-size: 18px;
+          font-weight: 700;
+          color: #404145;
+        }
+      }
+      
+      .review-count {
+        font-size: 16px;
+        color: #74767e;
+      }
+    }
+  }
+  
+  .loading-reviews {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 40px 0;
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top-color: #1dbf73;
+      animation: spin 1s linear infinite;
+    }
+    
+    p {
+      color: #74767e;
+      font-size: 16px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  }
+  
+  .error-message {
+    padding: 15px;
+    background-color: #ffebee;
+    color: #c62828;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  
+  .success-message {
+    padding: 15px;
+    background-color: #e7f7ed;
+    color: #0c6b39;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  
+  .no-reviews {
+    padding: 30px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 30px;
+    
+    p {
+      color: #74767e;
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+  
+  .reviews-list {
+    margin-bottom: 40px;
+  }
+  
+  .add-review {
+    background-color: #f5f5f5;
+    padding: 30px;
+    border-radius: 8px;
+    margin-top: 30px;
+    
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #404145;
+      margin: 0 0 20px 0;
+    }
+    
+    .review-form {
       display: flex;
       flex-direction: column;
       gap: 20px;
-  
-      .addForm {
+      
+      .rating-container {
         display: flex;
         flex-direction: column;
-        gap: 20px;
-  
-        input {
-          padding: 20px;
+        gap: 10px;
+        
+        .star-rating {
+          display: flex;
+          gap: 5px;
+          
+          label {
+            cursor: pointer;
+            
+            input {
+              display: none;
+            }
+            
+            .star {
+              transition: color 0.2s ease;
+            }
+          }
         }
-  
-        select {
-          width: 200px;
-          padding: 20px;
-          align-self: flex-end;
+        
+        .rating-text {
+          font-size: 14px;
+          color: #74767e;
         }
-        button {
-          align-self: flex-end;
-          width: 100px;
-          border: none;
-          padding: 10px;
-          color: white;
-          background-color: #1dbf73;
-          cursor: pointer;
+      }
+      
+      textarea {
+        padding: 15px;
+        border: 1px solid #e4e5e7;
+        border-radius: 4px;
+        resize: vertical;
+        font-family: inherit;
+        font-size: 16px;
+        
+        &:focus {
+          outline: none;
+          border-color: #1dbf73;
+        }
+        
+        &::placeholder {
+          color: #c5c6c9;
+        }
+      }
+      
+      .submit-button {
+        background-color: #1dbf73;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        
+        &:hover:not(:disabled) {
+          background-color: #19a463;
+        }
+        
+        &:disabled {
+          background-color: #c5c6c9;
+          cursor: not-allowed;
         }
       }
     }
-  
-    hr {
-      height: 0;
-      border: 0.5px solid lightgray;
-      margin: 50px 0px;
-    }
   }
+}

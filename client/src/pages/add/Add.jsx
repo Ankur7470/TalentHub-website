@@ -1,17 +1,18 @@
 import React, { useReducer, useState } from "react";
 import "./Add.scss";
-import { gigReducer, INITIAL_STATE } from "../../reducers/gigReducer";
+import { gigReducer, GIG_INITIAL_STATE } from "../../reducers/gigReducer";
 import upload from "../../utils/upload";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest";
 import { useNavigate } from "react-router-dom";
+import { CATEGORIES } from "../../constants/categories";
 
 const Add = () => {
   const [singleFile, setSingleFile] = useState(undefined);
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
 
-  const [state, dispatch] = useReducer(gigReducer, INITIAL_STATE);
+  const [state, dispatch] = useReducer(gigReducer, GIG_INITIAL_STATE);
 
   const handleChange = (e) => {
     dispatch({
@@ -79,11 +80,19 @@ const Add = () => {
               onChange={handleChange}
             />
             <label htmlFor="">Category</label>
-            <select name="cat" id="cat" onChange={handleChange}>
+            {/* <select name="cat" id="cat" onChange={handleChange}>
               <option value="design">Design</option>
               <option value="web">Web Development</option>
               <option value="animation">Animation</option>
               <option value="music">Music</option>
+            </select> */}
+            <select name="cat" id="cat" onChange={handleChange}>
+              <option value="">Select a category</option>
+              {CATEGORIES.map(category => (
+                <option key={category.id} value={category.value}>
+                  {category.title}
+                </option>
+              ))}
             </select>
             <div className="images">
               <div className="imagesInputs">
@@ -142,7 +151,7 @@ const Add = () => {
             <label htmlFor="">Add Features</label>
             <form action="" className="add" onSubmit={handleFeature}>
               <input type="text" placeholder="e.g. page design" />
-              <button type="submit">add</button>
+              <button type="submit">Add</button>
             </form>
             <div className="addedFeatures">
               {state?.features?.map((f) => (

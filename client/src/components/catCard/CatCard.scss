@@ -1,29 +1,88 @@
+// .catCard {
+//   width: 252px;
+//   height: 344px;
+//   color: white;
+//   border-radius: 5px;
+//   position: relative;
+//   cursor: pointer;
+
+//   img {
+//     width: 100%;
+//     height: 100%;
+//     object-fit: cover;
+//   }
+
+//   .desc {
+//     font-weight: 300;
+//     position: absolute;
+//     top: 15px;
+//     left: 15px;
+//   }
+
+//   .title {
+//     position: absolute;
+//     top: 40px;
+//     left: 15px;
+//     font-size:24px;
+//     font-weight: 500;
+//   }
+// }
+.catCard-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
 .catCard {
-  width: 252px;
-  height: 344px;
-  color: white;
-  border-radius: 5px;
   position: relative;
-  cursor: pointer;
-
-  img {
-    width: 100%;
+  height: 280px;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    
+    .catCard-image img {
+      transform: scale(1.05);
+    }
+  }
+  
+  .catCard-image {
     height: 100%;
-    object-fit: cover;
+    width: 100%;
+    overflow: hidden;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
   }
-
-  .desc {
-    font-weight: 300;
+  
+  .catCard-content {
     position: absolute;
-    top: 15px;
-    left: 15px;
-  }
-
-  .title {
-    position: absolute;
-    top: 40px;
-    left: 15px;
-    font-size:24px;
-    font-weight: 500;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .desc {
+      font-size: 14px;
+      opacity: 0.9;
+    }
   }
 }
