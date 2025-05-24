@@ -41,4 +41,12 @@ const OrderSchema = new Schema(
   }
 );
 
+OrderSchema.post('save', async function() {
+  if (this.isCompleted) {
+    // Update seller's last delivery time
+    const deliveryTime = (new Date(this.updatedAt) - new Date(this.createdAt)) / (1000 * 60 * 60 * 24);
+    await User.findByIdAndUpdate(this.sellerId, { lastDelivery: Math.round(deliveryTime) });
+  }
+});
+
 export default mongoose.model("Order", OrderSchema);

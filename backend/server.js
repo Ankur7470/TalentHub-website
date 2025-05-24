@@ -66,6 +66,8 @@ import orderRoute from "./routes/order.route.js";
 import reviewRoute from "./routes/review.route.js";
 import messageRoute from "./routes/message.route.js";
 import conversationRoute from "./routes/conversation.route.js";
+import categoryRoute from "./routes/category.route.js";
+import projectRoute from "./routes/project.route.js";
 import authRoute from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 
@@ -73,8 +75,13 @@ const app = express();
 dotenv.config();
 
 mongoose.set("strictQuery", true);
+
+//prod
 app.use(cors({origin: "https://talent-hub-website-frontend.vercel.app", credentials:true}));
-// app.use(cors({origin: "https://talent-hub-website-frontend-7nn9ki0cv-ankur7470.vercel.app", credentials: true}));
+
+//dev
+// app.use(cors({origin:"http://localhost:5173", credentials: true}));
+
 app.use(cookieParser());
 app.use(express.json());
 
@@ -85,6 +92,8 @@ app.use("/backend/orders", orderRoute);
 app.use("/backend/reviews", reviewRoute);
 app.use("/backend/messages", messageRoute);
 app.use("/backend/conversations", conversationRoute);
+app.use("/backend/categories", categoryRoute);
+app.use("/backend/projects", projectRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

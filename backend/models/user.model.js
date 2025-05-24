@@ -36,6 +36,18 @@ const userSchema = new Schema({
     type: Boolean,
     default:false
   },
+  languages: {
+    type: [String],
+    default: ["English"]
+  },
+  avgResponseTime: {
+    type: Number, // Store in hours
+    default: 4
+  },
+  lastDelivery: {
+    type: Number, // Store in days
+    default: 1
+  },
 },{
   timestamps:true
 });
