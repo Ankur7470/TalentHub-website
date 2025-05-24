@@ -14,4 +14,3 @@ const dev = {
   const config = prod;
   
   export default config;
-  
