@@ -11,6 +11,6 @@ const dev = {
   };
   
   // const config = process.env.NODE_ENV === 'production' ? prod : dev;
-  const config = prod;
+  const config = dev;
   
   export default config;

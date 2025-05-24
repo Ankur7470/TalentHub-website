@@ -76,11 +76,14 @@ dotenv.config();
 
 mongoose.set("strictQuery", true);
 
-//prod
-app.use(cors({origin: "https://talent-hub-website-frontend.vercel.app", credentials:true}));
-
-//dev
-// app.use(cors({origin:"http://localhost:5173", credentials: true}));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://talent-hub-website-frontend.vercel.app"
+];
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));  
 
 app.use(cookieParser());
 app.use(express.json());
@@ -102,38 +105,25 @@ app.use((err, req, res, next) => {
   return res.status(errorStatus).send(errorMessage);
 });
 
-// Connect to MongoDB when not in Vercel serverless environment
-// if (process.env.NODE_ENV !== 'production') {
-//   const connect = async () => {
-//     try {
-//       await mongoose.connect(process.env.MONGO_URI);
-//       console.log('Connected to MongoDB');
-//     } catch(error) {
-//       console.log(error);
-//     }
-//   };
-  
-//   const port = process.env.PORT || 5000;
-//   app.listen(port, () => {
-//     connect();
-//     console.log(`Server is running on port ${port}`);
-//   });
-// }
-
-// For Vercel, connect to MongoDB and export the app
+// MongoDB connection (works for both local and Vercel)
 const connect = async () => {
   try {
-    if (!mongoose.connection.readyState) {
+    if (mongoose.connection.readyState === 0) {
       await mongoose.connect(process.env.MONGO_URI);
       console.log('Connected to MongoDB');
     }
-  } catch(error) {
+  } catch (error) {
     console.log(error);
   }
 };
-
-// Connect to MongoDB
 connect();
 
-// Export the app for Vercel
+// Local dev: start server
+if (process.env.NODE_ENV !== 'production') {
+  const port = process.env.PORT || 5000;
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+}
+
 export default app;

@@ -128,7 +128,8 @@ import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import Profile from "./pages/profile/Profile";
 import Loader from "./components/loader/Loader";
 import ScrollToTop from "./utils/scrollToTop";
-
+import ErrorFallback from "./components/ErrorFallback";
+  
 function App() {
   const queryClient = new QueryClient();
 
@@ -155,6 +156,7 @@ function App() {
     {
       path: "/",
       element: <Layout />,
+      errorElement: <ErrorFallback />, 
       children: [
         {
           path: "/",
