@@ -103,22 +103,22 @@ app.use((err, req, res, next) => {
 });
 
 // Connect to MongoDB when not in Vercel serverless environment
-if (process.env.NODE_ENV !== 'production') {
-  const connect = async () => {
-    try {
-      await mongoose.connect(process.env.MONGO_URI);
-      console.log('Connected to MongoDB');
-    } catch(error) {
-      console.log(error);
-    }
-  };
+// if (process.env.NODE_ENV !== 'production') {
+//   const connect = async () => {
+//     try {
+//       await mongoose.connect(process.env.MONGO_URI);
+//       console.log('Connected to MongoDB');
+//     } catch(error) {
+//       console.log(error);
+//     }
+//   };
   
-  const port = process.env.PORT || 5000;
-  app.listen(port, () => {
-    connect();
-    console.log(`Server is running on port ${port}`);
-  });
-}
+//   const port = process.env.PORT || 5000;
+//   app.listen(port, () => {
+//     connect();
+//     console.log(`Server is running on port ${port}`);
+//   });
+// }
 
 // For Vercel, connect to MongoDB and export the app
 const connect = async () => {
