@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import Loader from '../loader/Loader'; // Show spinner during hydration
+import useAuth from '../../context/useAuth';
+import Loader from '../loader/Loader'; 
 
 const ProtectedRoute = ({ children, sellerOnly = false }) => {
   const { currentUser, isInitializing } = useAuth();

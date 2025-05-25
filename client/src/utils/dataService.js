@@ -1,4 +1,4 @@
-import newRequest from "./newRequest";
+import api from "./api";
 
 // Gigs
 export const fetchGigs = async (filters = {}) => {
@@ -15,44 +15,44 @@ export const fetchGigs = async (filters = {}) => {
 };
 
 export const fetchGigById = async (id) => {
-  return newRequest.get(`/gigs/single/${id}`);
+  return api.get(`/gigs/single/${id}`);
 };
 
 export const fetchUserGigs = async (userId) => {
-  return newRequest.get(`/gigs?userId=${userId}`);
+  return api.get(`/gigs?userId=${userId}`);
 };
 
 // Users
 export const fetchUserById = async (id) => {
-  return newRequest.get(`/users/${id}`);
+  return api.get(`/users/${id}`);
 };
 
 // Reviews
 export const fetchReviewsByGigId = async (gigId) => {
-  return newRequest.get(`/reviews/${gigId}`);
+  return api.get(`/reviews/${gigId}`);
 };
 
 export const createReview = async (review) => {
-  return newRequest.post("/reviews", review);
+  return api.post("/reviews", review);
 };
 
 // Messages
 export const fetchConversations = async () => {
-  return newRequest.get("/conversations");
+  return api.get("/conversations");
 };
 
 export const fetchMessages = async (conversationId) => {
-  return newRequest.get(`/messages/${conversationId}`);
+  return api.get(`/messages/${conversationId}`);
 };
 
 export const createMessage = async (message) => {
-  return newRequest.post("/messages", message);
+  return api.post("/messages", message);
 };
 
 export const markConversationAsRead = async (id) => {
-  return newRequest.put(`/conversations/${id}`);
+  return api.put(`/conversations/${id}`);
 };
 
 export const createConversation = async (to) => {
-  return newRequest.post("/conversations", { to });
+  return api.post("/conversations", { to });
 };

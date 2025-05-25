@@ -31,7 +31,6 @@ const upload = async (file) => {
   try {
     const res = await axios.post(config.CLOUDINARY_URL, data, {
       onUploadProgress: (progressEvent) => {
-        // You can implement progress tracking here
         const percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
         );

@@ -1,44 +1,9 @@
-// import React, { useEffect } from "react";
-// import { useLocation, useNavigate } from "react-router-dom";
-// import "./Success.scss";
-// import newRequest from "../../utils/newRequest";
-
-// const Success = () => {
-//   const { search } = useLocation();
-//   const navigate = useNavigate();
-//   const params = new URLSearchParams(search);
-//   const payment_intent = params.get("payment_intent");
-
-//   useEffect(() => {
-//     const makeRequest = async () => {
-//       try {
-//         await newRequest.put("/orders", { payment_intent });
-//         setTimeout(() => {
-//           navigate("/orders");
-//         }, 5000);
-//       } catch (err) {
-//         console.log(err);
-//       }
-//     };
-
-//     makeRequest();
-//   }, []);
-
-//   return (
-//     <div>
-//       Payment successful. You are being redirected to the orders page. Please do
-//       not close the page
-//     </div>
-//   );
-// };
-
-// export default Success;
 import React, { useReducer, useState } from "react";
 import "./Success.scss";
 import { gigReducer, GIG_INITIAL_STATE } from "../../reducers/gigReducer";
 import upload from "../../utils/upload";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import newRequest from "../../utils/newRequest";
+import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { 
   FaCloudUploadAlt, 
@@ -145,7 +110,7 @@ const Add = () => {
 
   const mutation = useMutation({
     mutationFn: (gig) => {
-      return newRequest.post("/gigs", gig);
+      return api.post("/gigs", gig);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["myGigs"]);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Profile.scss";
-import { useAuth } from "../../context/AuthContext";
+import useAuth from "../../context/useAuth";
 import upload from "../../utils/upload";
 import { FaUser, FaEnvelope, FaGlobe, FaPhone, FaFileUpload } from "react-icons/fa";
 

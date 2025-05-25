@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useContext } from 'react';
 import { gigReducer, GIG_INITIAL_STATE } from '../reducers/gigReducer';
-import newRequest from '../utils/newRequest';
+import api from '../utils/api';
 import { GIG_ACTIONS } from '../constants/actionTypes';
 import upload from '../utils/upload';
 
@@ -13,7 +13,7 @@ export const GigProvider = ({ children }) => {
   const createGig = async (gigData) => {
     dispatch({ type: GIG_ACTIONS.SET_LOADING, payload: true });
     try {
-      const res = await newRequest.post("/gigs", gigData);
+      const res = await api.post("/gigs", gigData);
       dispatch({ type: "SET_SUCCESS", payload: true });
       return res.data;
     } catch (err) {
@@ -23,21 +23,10 @@ export const GigProvider = ({ children }) => {
   };
 
   //Update gig
-  // const updateGig = async (id, gigData) => {
-  //   dispatch({ type: GIG_ACTIONS.SET_LOADING, payload: true });
-  //   try {
-  //     const res = await newRequest.put(`/gigs/${id}`, gigData);
-  //     dispatch({ type: "SET_SUCCESS", payload: true });
-  //     return res.data;
-  //   } catch (err) {
-  //     dispatch({ type: GIG_ACTIONS.SET_ERROR, payload: err.response?.data || "Failed to update gig" });
-  //     throw err;
-  //   }
-  // };
   const updateGig = async (id, gigData) => {
     dispatch({ type: GIG_ACTIONS.SET_LOADING, payload: true });
     try {
-      const res = await newRequest.put(`/gigs/${id}`, gigData);
+      const res = await api.put(`/gigs/${id}`, gigData);
       dispatch({ type: GIG_ACTIONS.UPDATE_GIG, payload: res.data });
       return res.data;
     } catch (err) {

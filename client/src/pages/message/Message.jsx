@@ -1,79 +1,7 @@
-// import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-// import React from "react";
-// import { Link, useParams } from "react-router-dom";
-// import newRequest from "../../utils/newRequest";
-// import "./Message.scss";
-
-// const Message = () => {
-//   const { id } = useParams();
-//   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
-//   const queryClient = useQueryClient();
-
-//   const { isLoading, error, data } = useQuery({
-//     queryKey: ["messages"],
-//     queryFn: () =>
-//       newRequest.get(`/messages/${id}`).then((res) => {
-//         return res.data;
-//       }),
-//   });
-
-//   const mutation = useMutation({
-//     mutationFn: (message) => {
-//       return newRequest.post(`/messages`, message);
-//     },
-//     onSuccess: () => {
-//       queryClient.invalidateQueries(["messages"]);
-//     },
-//   });
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     mutation.mutate({
-//       conversationId: id,
-//       desc: e.target[0].value,
-//     });
-//     e.target[0].value = "";
-//   };
-
-//   return (
-//     <div className="message">
-//       <div className="container">
-//         <span className="breadcrumbs">
-//           <Link to="/messages">Messages</Link> 
-//         </span>
-//         {isLoading ? (
-//           "loading"
-//         ) : error ? (
-//           "error"
-//         ) : (
-//           <div className="messages">
-//             {data.map((m) => (
-//               <div className={m.userId === currentUser._id ? "owner item" : "item"} key={m._id}>
-//                 <img
-//                   src="https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600"
-//                   alt=""
-//                 />
-//                 <p>{m.desc}</p>
-//               </div>
-//             ))}
-//           </div>
-//         )}
-//         <hr />
-//         <form className="write" onSubmit={handleSubmit}>
-//           <textarea type="text" placeholder="write a message" />
-//           <button type="submit">Send</button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Message;
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import newRequest from "../../utils/newRequest";
+import api from "../../utils/api";
 import "./Message.scss";
 import { FaArrowLeft, FaPaperPlane, FaPaperclip } from "react-icons/fa";
 import Loader from "../../components/loader/Loader";
@@ -89,13 +17,13 @@ const Message = () => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["messages", id],
     queryFn: () =>
-      newRequest.get(`/messages/${id}`).then((res) => res.data),
+      api.get(`/messages/${id}`).then((res) => res.data),
     refetchInterval: 5000, // Poll for new messages every 5 seconds
   });
 
   const mutation = useMutation({
     mutationFn: (message) => {
-      return newRequest.post(`/messages`, message);
+      return api.post(`/messages`, message);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["messages", id]);
@@ -147,7 +75,7 @@ const Message = () => {
   const { data: conversationData } = useQuery({
     queryKey: ["conversation", id],
     queryFn: () =>
-      newRequest.get(`/conversations/single/${id}`).then((res) => res.data),
+      api.get(`/conversations/single/${id}`).then((res) => res.data),
   });
 
   // Get other user details
@@ -158,7 +86,7 @@ const Message = () => {
   const { data: otherUser } = useQuery({
     queryKey: ["user", otherUserId],
     queryFn: () =>
-      newRequest.get(`/users/${otherUserId}`).then((res) => res.data),
+      api.get(`/users/${otherUserId}`).then((res) => res.data),
     enabled: !!otherUserId,
   });
 
@@ -219,17 +147,6 @@ const Message = () => {
             <FaPaperclip />
           </button>
 
-          {/* <textarea
-            placeholder="Write a message..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSubmit(e);
-              }
-            }}
-          /> */}
           <textarea
             disabled={mutation.isLoading}
             placeholder="Write a message..."

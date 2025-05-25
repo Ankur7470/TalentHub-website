@@ -3,7 +3,7 @@ import "./Add.scss";
 import { gigReducer, GIG_INITIAL_STATE } from "../../reducers/gigReducer";
 import upload from "../../utils/upload";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import newRequest from "../../utils/newRequest";
+import newRequest from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { CATEGORIES } from "../../constants/categories";
 
@@ -53,7 +53,7 @@ const Add = () => {
 
   const mutation = useMutation({
     mutationFn: (gig) => {
-      return newRequest.post("/gigs", gig);
+      return api.post("/gigs", gig);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["myGigs"]);

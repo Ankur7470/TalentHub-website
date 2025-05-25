@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Gigs.scss";
 import GigCard from "../../components/gigCard/GigCard";
 import { useQuery } from "@tanstack/react-query";
-import newRequest from "../../utils/newRequest";
+import api from "../../utils/api";
 import { useLocation } from "react-router-dom";
 import { FaFilter, FaSort, FaChevronDown, FaSearch } from "react-icons/fa";
 import Loader from "../../components/loader/Loader";
@@ -25,7 +25,7 @@ function Gigs() {
   const { isLoading, error, data, refetch } = useQuery({
     queryKey: ["gigs", search, sort],
     queryFn: () =>
-      newRequest
+      api
         .get(
           `/gigs?${searchQuery}&min=${minRef.current?.value || 0}&max=${maxRef.current?.value || 9999}&sort=${sort}`
         )

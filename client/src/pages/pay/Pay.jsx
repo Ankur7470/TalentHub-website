@@ -1,53 +1,4 @@
-// import newRequest from "../../utils/newRequest";
-// import { useParams } from "react-router-dom";
-// import CheckoutForm from "../../components/checkoutForm/CheckoutForm";
-// import React, { useState, useEffect } from "react";
-// import { loadStripe } from "@stripe/stripe-js";
-// import { Elements } from "@stripe/react-stripe-js";
-
-
-// const stripePromise = loadStripe(
-//   "pk_test_51Nm9yDSHsDY67OPRFgsLZoyYEaumCHiJv25TsnTb0J358IE4dQvnsb9cyGrKuPNThmha1paqCgBWRDAqAzjcRsPp00L8IxleNl"
-// );
-
-// const Pay = () => {
-//   const [clientSecret, setClientSecret] = useState("");
-
-//   const { id } = useParams();
-
-//   useEffect(() => {
-//     const makeRequest = async () => {
-//       try {
-//         const res = await newRequest.post(
-//           `/orders/create-payment-intent/${id}`
-//         );
-//         setClientSecret(res.data.clientSecret);
-//       } catch (err) {
-//         console.log(err);
-//       }
-//     };
-//     makeRequest();
-//   }, []);
-
-//   const appearance = {
-//     theme: 'stripe',
-//   };
-//   const options = {
-//     clientSecret,
-//     appearance,
-//   };
-
-//   return <div className="pay">
-//     {clientSecret && (
-//         <Elements options={options} stripe={stripePromise}>
-//           <CheckoutForm />
-//         </Elements>
-//       )}
-//   </div>;
-// };
-
-// export default Pay;
-import newRequest from "../../utils/newRequest";
+import api from "../../utils/api";
 import { useParams, Link } from "react-router-dom";
 import CheckoutForm from "../../components/checkoutForm/CheckoutForm";
 import React, { useState, useEffect } from "react";
@@ -72,7 +23,7 @@ const Pay = () => {
   useEffect(() => {
     const fetchGigDetails = async () => {
       try {
-        const res = await newRequest.get(`/gigs/single/${id}`);
+        const res = await api.get(`/gigs/single/${id}`);
         setGig(res.data);
       } catch (err) {
         setError("Failed to load gig details");
@@ -87,7 +38,7 @@ const Pay = () => {
     const makeRequest = async () => {
       try {
         setLoading(true);
-        const res = await newRequest.post(`/orders/create-payment-intent/${id}`);
+        const res = await api.post(`/orders/create-payment-intent/${id}`);
         setClientSecret(res.data.clientSecret);
       } catch (err) {
         setError("Payment initialization failed. Please try again.");

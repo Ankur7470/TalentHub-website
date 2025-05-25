@@ -3,7 +3,7 @@ import "./EditGig.scss";
 import { gigReducer, GIG_INITIAL_STATE } from "../../reducers/gigReducer";
 import upload from "../../utils/upload";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import newRequest from "../../utils/newRequest";
+import api from "../../utils/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaCloudUploadAlt, FaImages, FaPlus, FaTimes } from "react-icons/fa";
 import Loader from "../../components/loader/Loader";
@@ -24,7 +24,7 @@ const EditGig = () => {
     // Fetch the gig data
     const { isLoading, error, data } = useQuery({
         queryKey: ["gig", id],
-        queryFn: () => newRequest.get(`/gigs/single/${id}`).then((res) => res.data),
+        queryFn: () => api.get(`/gigs/single/${id}`).then((res) => res.data),
     });
 
     // Set the initial state when data is loaded
@@ -130,7 +130,7 @@ const EditGig = () => {
 
     const mutation = useMutation({
         mutationFn: (updatedGig) => {
-            return newRequest.put(`/gigs/${id}`, updatedGig);
+            return api.put(`/gigs/${id}`, updatedGig);
         },
         onSuccess: () => {
             queryClient.invalidateQueries(["myGigs"]);
