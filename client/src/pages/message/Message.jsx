@@ -105,21 +105,43 @@ const Message = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     if (!message.trim()) return;
-    
+
+    const msgToSend = message; // cache it
+    setMessage(""); // clear input immediately
+
     mutation.mutate({
       conversationId: id,
-      desc: message,
+      desc: msgToSend,
     });
   };
 
   // Scroll to bottom when messages change
+  // useEffect(() => {
+  //   if (messagesEndRef.current) {
+  //     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // }, [data]);
+
+  // useEffect(() => {
+  //   if (messagesEndRef.current && data?.length > 0) {
+  //     const lastMessage = data[data.length - 1];
+  //     if (lastMessage?.userId === currentUser._id) {
+  //       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  //     }
+  //   }
+  // }, [data, currentUser._id]);
+
   useEffect(() => {
-    if (messagesEndRef.current) {
+    const container = document.querySelector(".messages-container");
+    const isNearBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 100;
+  
+    if (isNearBottom && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [data]);
+  
+  
 
   // Get conversation details
   const { data: conversationData } = useQuery({
@@ -129,8 +151,8 @@ const Message = () => {
   });
 
   // Get other user details
-  const otherUserId = conversationData?.sellerId === currentUser._id 
-    ? conversationData?.buyerId 
+  const otherUserId = conversationData?.sellerId === currentUser._id
+    ? conversationData?.buyerId
     : conversationData?.sellerId;
 
   const { data: otherUser } = useQuery({
@@ -141,9 +163,9 @@ const Message = () => {
   });
 
   const formatDate = (date) => {
-    return new Date(date).toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return new Date(date).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
     });
   };
 
@@ -154,12 +176,12 @@ const Message = () => {
           <Link to="/messages" className="back-button">
             <FaArrowLeft /> Back to Messages
           </Link>
-          
+
           {otherUser && (
             <div className="chat-with">
-              <img 
-                src={otherUser.img || "/img/avatar-1968236_1920.png"} 
-                alt={otherUser.username} 
+              <img
+                src={otherUser.img || "/img/avatar-1968236_1920.png"}
+                alt={otherUser.username}
               />
               <div className="user-info">
                 <h2>{otherUser.username}</h2>
@@ -168,7 +190,7 @@ const Message = () => {
             </div>
           )}
         </div>
-        
+
         <div className="messages-container">
           {isLoading ? (
             <Loader message="Loading messages..." />
@@ -177,8 +199,8 @@ const Message = () => {
           ) : (
             <div className="messages-list">
               {data.map((m) => (
-                <div 
-                  className={`message ${m.userId === currentUser._id ? "own" : "other"}`} 
+                <div
+                  className={`message ${m.userId === currentUser._id ? "own" : "other"}`}
                   key={m._id}
                 >
                   <div className="message-content">
@@ -191,13 +213,25 @@ const Message = () => {
             </div>
           )}
         </div>
-        
+
         <form className="message-input" onSubmit={handleSubmit}>
           <button type="button" className="attach-button">
             <FaPaperclip />
           </button>
-          
+
+          {/* <textarea
+            placeholder="Write a message..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSubmit(e);
+              }
+            }}
+          /> */}
           <textarea
+            disabled={mutation.isLoading}
             placeholder="Write a message..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
@@ -208,14 +242,20 @@ const Message = () => {
               }
             }}
           />
-          
-          <button 
-            type="submit" 
+
+          <button
+            type="submit"
             className="send-button"
-            disabled={!message.trim() || mutation.isLoading}
+            disabled={mutation.isLoading}
           >
-            <FaPaperPlane />
+            {mutation.isLoading ? (
+              <span className="loader-spinner" />
+            ) : (
+              <FaPaperPlane />
+            )}
           </button>
+
+
         </form>
       </div>
     </div>
