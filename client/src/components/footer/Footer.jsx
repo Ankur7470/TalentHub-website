@@ -1,4 +1,3 @@
-import React from "react";
 import "./Footer.scss";
 import { Link } from "react-router-dom";
 import { FaTwitter, FaFacebook, FaLinkedin, FaPinterest, FaInstagram, FaGlobe, FaDollarSign, FaUniversalAccess } from "react-icons/fa";

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import "./Featured.scss";
+import { useState } from "react";
+import "./HeroSection.scss";
 import { useNavigate } from "react-router-dom";
 
-function Featured() {
+function HeroSection() {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ function Featured() {
                   onKeyPress={handleKeyPress}
                 />
               </div>
-              <button onClick={handleSubmit}>Search</button>
+              <button onClick={()=>navigate(`/gigs?search=${input}`)}>Search</button>
             </div>
           </div>
           <div className="popular">
@@ -47,12 +47,12 @@ function Featured() {
             </div>
           </div>
         </div>
-        <div className="right">
-          <img src="./img/man.png" alt="Freelancer" />
+        <div className="right" onClick={()=>navigate('/gigs')}>
+          <img src="./img/back_man.png" alt="Freelancer" />
         </div>
       </div>
     </div>
   );
 }
 
-export default Featured;
+export default HeroSection;

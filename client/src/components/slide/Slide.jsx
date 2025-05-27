@@ -1,37 +1,39 @@
-import React, { useCallback } from "react";
-import "./Slide.scss";
+import React, { useCallback, useEffect, useRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
+import "./Slide.scss";
 
-const Slide = ({ children, slidesToShow, arrowsScroll }) => {
-  // Ensure options is a valid object
-  const options = {
+const Slide = ({ children, slidesToShow = 3 }) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "start",
-    slidesToScroll: 1
-  };
-  
-  // Use emblaApi to access the carousel methods
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+    dragFree: true,
+  });
 
-  // Create callback functions for the arrow buttons
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
+  const containerRef = useRef(null);
 
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.style.setProperty("--slide-count", slidesToShow);
+    }
+  }, [slidesToShow]);
 
   return (
     <div className="slide">
-      <div className="container">
+      <div className="slide-container">
         <div className="embla-wrapper">
           <button className="embla__prev" onClick={scrollPrev}>
             &lt;
           </button>
           <div className="embla" ref={emblaRef}>
-            <div className="embla__container">
-              {children}
+            <div className="embla__container" ref={containerRef}>
+              {React.Children.map(children, (child, index) => (
+                <div className="embla__slide" key={index}>
+                  {child}
+                </div>
+              ))}
             </div>
           </div>
           <button className="embla__next" onClick={scrollNext}>

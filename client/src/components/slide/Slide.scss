@@ -1,50 +1,75 @@
 .slide {
-  .container {
+  width: 100%;
+
+  .slide-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+
     .embla-wrapper {
       position: relative;
-      
+
       .embla {
         overflow: hidden;
-        
+        width: 100%;
+
         .embla__container {
           display: flex;
-          
-          & > * {
-            flex: 0 0 auto;
-            min-width: 0;
-            width: calc(100% / var(--slide-count, 1));
-            padding: 0 15px;
+          transition: transform 0.3s ease;
+          will-change: transform;
+
+          .embla__slide {
+            flex: 0 0 calc(100% / var(--slide-count));
+            padding: 0 10px;
+            box-sizing: border-box;
           }
         }
       }
-      
+
       .embla__prev,
       .embla__next {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        z-index: 1;
+        z-index: 2;
         width: 40px;
         height: 40px;
-        background-color: white;
-        border: 1px solid #e4e5e7;
+        background: #fff;
+        border: 1px solid #ccc;
         border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         display: flex;
-        align-items: center;
         justify-content: center;
-        cursor: pointer;
+        align-items: center;
         font-size: 18px;
         color: #333;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background 0.3s ease;
+
+        &:hover {
+          background: #eee;
+        }
       }
-      
+
       .embla__prev {
         left: 10px;
       }
-      
+
       .embla__next {
         right: 10px;
       }
     }
+  }
+}
+
+@media (max-width: 992px) {
+  .embla__container {
+    --slide-count: 2 !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .embla__container {
+    --slide-count: 1 !important;
   }
 }
