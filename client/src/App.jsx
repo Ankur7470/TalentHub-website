@@ -1,6 +1,9 @@
 import "./app.scss";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import React from "react";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider } from "./context/AuthContext";
+import { GigProvider } from "./context/GigContext";
+import { OrderProvider } from "./context/OrderContext";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Home from "./pages/home/Home";
@@ -8,6 +11,7 @@ import Gigs from "./pages/gigs/Gigs";
 import Gig from "./pages/gig/Gig";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
+import ForgotPass from "./pages/forgotPass/ForgotPass";
 import Add from "./pages/add/Add";
 import Orders from "./pages/orders/Orders";
 import Messages from "./pages/messages/Messages";
@@ -19,17 +23,13 @@ import Contact from "./pages/contactUs/Contact";
 import Privacy from "./pages/privacy/Privacy";
 import Terms from "./pages/TermsOfService/Terms";
 import PageNotFound from "./pages/pageNotFound/PageNotFound";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Pay from "./pages/pay/Pay";
 import Success from "./pages/success/Success";
-import { AuthProvider } from "./context/AuthContext";
-import { GigProvider } from "./context/GigContext";
-import { OrderProvider } from "./context/OrderContext";
-import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import Profile from "./pages/profile/Profile";
 import Loader from "./components/loader/Loader";
-import ScrollToTop from "./utils/scrollToTop";
+import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import ErrorFallback from "./components/ErrorFallback";
+import ScrollToTop from "./utils/scrollToTop";
   
 function App() {
   const queryClient = new QueryClient();
@@ -126,6 +126,11 @@ function App() {
         {
           path: "/login",
           element: <Login />,
+        },
+        {
+          path: "/forgot-password",
+          element: <ForgotPass />
+
         },
         {
           path: "/pay/:id",

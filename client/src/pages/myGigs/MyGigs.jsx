@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "../../utils/api";
 import { FaPlus, FaTrash, FaEdit, FaSearch, FaSort, FaChevronDown } from "react-icons/fa";
 import Loader from "../../components/loader/Loader";
-import useAuth from "../../context/useAuth";
+import useAuth from "../../hooks/useAuth";
 
 function MyGigs() {
   const { currentUser } = useAuth();
@@ -19,7 +19,7 @@ function MyGigs() {
   const { isLoading, error, data } = useQuery({
     queryKey: ["myGigs", sort],
     queryFn: () =>
-      api.get(`/gigs?userId=${currentUser.id}&sort=${sort}`).then((res) => res.data),
+      api.get(`/gigs/mygigs?sort=${sort}`).then((res) => res.data),
   });
 
   const mutation = useMutation({
@@ -45,7 +45,7 @@ function MyGigs() {
   };
 
   // Filter gigs by search term
-  const filteredGigs = data?.filter(gig => 
+  const filteredGigs = data?.filter(gig =>
     gig.title.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -54,36 +54,36 @@ function MyGigs() {
       <div className="container">
         <div className="mygigs-header">
           <h1>My Gigs</h1>
-          
+
           <div className="header-actions">
             <div className="search-bar">
               <FaSearch />
-              <input 
-                type="text" 
-                placeholder="Search your gigs..." 
+              <input
+                type="text"
+                placeholder="Search your gigs..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
-            
+
             <div className="sort-dropdown">
-              <button 
+              <button
                 className="sort-button"
                 onClick={() => setOpenSort(!openSort)}
               >
                 <FaSort />
                 <span>
-                  {sort === "newest" 
-                    ? "Newest" 
-                    : sort === "oldest" 
-                      ? "Oldest" 
-                      : sort === "sales" 
-                        ? "Most Sales" 
+                  {sort === "newest"
+                    ? "Newest"
+                    : sort === "oldest"
+                      ? "Oldest"
+                      : sort === "sales"
+                        ? "Most Sales"
                         : "Sort By"}
                 </span>
                 <FaChevronDown className={openSort ? "rotate" : ""} />
               </button>
-              
+
               {openSort && (
                 <div className="sort-options">
                   <div onClick={() => { setSort("newest"); setOpenSort(false); }}>Newest</div>
@@ -92,7 +92,7 @@ function MyGigs() {
                 </div>
               )}
             </div>
-            
+
             {currentUser.isSeller && (
               <Link to="/add" className="add-button">
                 <FaPlus /> Add New Gig
@@ -100,7 +100,7 @@ function MyGigs() {
             )}
           </div>
         </div>
-        
+
         {isLoading ? (
           <Loader message="Loading your gigs..." />
         ) : error ? (
@@ -109,8 +109,8 @@ function MyGigs() {
           <div className="empty-state">
             <h3>No gigs found</h3>
             <p>
-              {search 
-                ? "No gigs match your search." 
+              {search
+                ? "No gigs match your search."
                 : "You haven't created any gigs yet. Create your first gig to start selling your services."}
             </p>
             {!search && (
@@ -132,7 +132,7 @@ function MyGigs() {
                     <Link to={`/edit-gig/${gig._id}`} className="edit-button">
                       <FaEdit />
                     </Link>
-                    <button 
+                    <button
                       className="delete-button"
                       onClick={() => handleDelete(gig._id)}
                     >
@@ -140,7 +140,7 @@ function MyGigs() {
                     </button>
                   </div>
                 </div>
-                
+
                 <div className="gig-details">
                   <h3>{gig.title}</h3>
                   <div className="gig-stats">
@@ -162,20 +162,20 @@ function MyGigs() {
             ))}
           </div>
         )}
-        
+
         {deleteConfirm && (
           <div className="delete-modal">
             <div className="delete-content">
               <h3>Confirm Deletion</h3>
               <p>Are you sure you want to delete this gig? This action cannot be undone.</p>
               <div className="delete-actions">
-                <button 
+                <button
                   className="cancel-button"
                   onClick={cancelDelete}
                 >
                   Cancel
                 </button>
-                <button 
+                <button
                   className="confirm-button"
                   onClick={() => confirmDelete(deleteConfirm)}
                 >

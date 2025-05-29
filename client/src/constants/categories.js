@@ -3,7 +3,7 @@ export const CATEGORIES = [
     id: "graphics",
     fet: "1",
     title: "Graphics & Design",
-    value: "design",
+    value: "graphics",
     img: "https://images.pexels.com/photos/11295165/pexels-photo-11295165.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
     image:
       "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/graphics-design.d32a2f8.svg",
@@ -12,7 +12,7 @@ export const CATEGORIES = [
     id: "digital",
     fet: "1",
     title: "Digital Marketing",
-    value: "marketing",
+    value: "digital",
     img: "https://images.pexels.com/photos/11378899/pexels-photo-11378899.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
     image:
       "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/online-marketing.74e221b.svg",
@@ -27,7 +27,7 @@ export const CATEGORIES = [
       "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/writing-translation.32ebe2e.svg",
   },
   {
-    id: "video",
+    id: "animation",
     fet: "1",
     title: "Video & Animation",
     value: "animation",
@@ -48,7 +48,7 @@ export const CATEGORIES = [
     id: "programming",
     fet: "0",
     title: "Programming & Tech",
-    value: "web",
+    value: "programming",
     image:
       "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/programming.9362366.svg",
   },

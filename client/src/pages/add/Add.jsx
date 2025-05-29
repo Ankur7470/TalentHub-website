@@ -3,7 +3,7 @@ import "./Add.scss";
 import { gigReducer, GIG_INITIAL_STATE } from "../../reducers/gigReducer";
 import upload from "../../utils/upload";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import newRequest from "../../utils/api";
+import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { CATEGORIES } from "../../constants/categories";
 
@@ -80,12 +80,6 @@ const Add = () => {
               onChange={handleChange}
             />
             <label htmlFor="">Category</label>
-            {/* <select name="cat" id="cat" onChange={handleChange}>
-              <option value="design">Design</option>
-              <option value="web">Web Development</option>
-              <option value="animation">Animation</option>
-              <option value="music">Music</option>
-            </select> */}
             <select name="cat" id="cat" onChange={handleChange}>
               <option value="">Select a category</option>
               {CATEGORIES.map(category => (
@@ -109,7 +103,7 @@ const Add = () => {
                 />
               </div>
               <button onClick={handleUpload}>
-                {uploading ? "uploading" : "Upload"}
+                {uploading ? "Uploading" : "Upload"}
               </button>
             </div>
             <label htmlFor="">Description</label>

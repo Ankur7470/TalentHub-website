@@ -3,8 +3,7 @@ import upload from "../../utils/upload";
 import "./Register.scss";
 import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaGlobe, FaPhone, FaFileUpload, FaCheck } from "react-icons/fa";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 
 function Register() {
   const [file, setFile] = useState(null);
@@ -22,7 +21,7 @@ function Register() {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadLoading, setUploadLoading] = useState(false);
-  const { register } = useContext(AuthContext);
+  const { register } = useAuth();
 
 
   const navigate = useNavigate();

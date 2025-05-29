@@ -1,7 +1,7 @@
 import { FaCheck } from "react-icons/fa";
-import './Featured.scss'
+import './FeatureSection.scss'
 
-const Featured = () => {
+const FeatureSection = () => {
   return (
     <section className="features-section">
       <div className="container">
@@ -67,4 +67,4 @@ const Featured = () => {
   );
 };
 
-export default Featured;
+export default FeatureSection;

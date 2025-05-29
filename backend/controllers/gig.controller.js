@@ -86,3 +86,19 @@ export const updateGig = async (req, res, next) => {
   }
 };
 
+export const getMyGigs = async (req, res, next) => {
+  try {
+    const sort = req.query.sort || "newest";
+    let sortBy;
+
+    if (sort === "oldest") sortBy = { createdAt: 1 };
+    else if (sort === "sales") sortBy = { sales: -1 };
+    else sortBy = { createdAt: -1 }; // default = newest
+
+    const gigs = await Gig.find({ userId: req.userId }).sort(sortBy);
+    res.status(200).json(gigs);
+  } catch (err) {
+    next(err);
+  }
+};
+

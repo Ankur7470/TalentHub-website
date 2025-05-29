@@ -21,7 +21,7 @@ function Gigs() {
   const searchParam = queryParams.get('search') || '';
 
   const searchQuery = categoryParam ? `cat=${categoryParam}` : searchParam ? `cat=${searchParam}` : '';
-  
+
   const { isLoading, error, data, refetch } = useQuery({
     queryKey: ["gigs", search, sort],
     queryFn: () =>
@@ -66,7 +66,7 @@ function Gigs() {
         "graphics": "Graphics & Design",
         "digital": "Digital Marketing",
         "writing": "Writing & Translation",
-        "video": "Video & Animation",
+        "animation": "Video & Animation",
         "music": "Music & Audio",
         "programming": "Programming & Tech",
         "business": "Business",
@@ -82,13 +82,13 @@ function Gigs() {
   return (
     <div className="gigs-page">
       <div className="container">
-         <div className="gigs-header">
+        <div className="gigs-header">
           <div className="header-content">
             <h1>{getPageTitle()}</h1>
             <p>
-              {searchParam 
+              {searchParam
                 ? `Explore services related to "${searchParam}"`
-                : categoryParam 
+                : categoryParam
                   ? `Explore the best ${getPageTitle()} services from our talented freelancers`
                   : "Explore the boundaries of art and technology with TalentHub's talented freelancers"
               }
@@ -144,7 +144,7 @@ function Gigs() {
           </div>
         </div>
 
-         {isLoading ? (
+        {isLoading ? (
           <Loader message="Loading gigs..." />
         ) : error ? (
           <div className="error-container">
@@ -152,7 +152,7 @@ function Gigs() {
           </div>
         ) : data.length === 0 ? (
           <div className="no-results">
-            <FaSearch/>
+            <FaSearch />
             <h2>No gigs found</h2>
             <p>Try adjusting your search or filters to find what you're looking for.</p>
           </div>

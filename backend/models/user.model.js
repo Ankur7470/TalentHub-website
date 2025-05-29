@@ -48,6 +48,8 @@ const userSchema = new Schema({
     type: Number, // Store in days
     default: 1
   },
+  // resetPasswordToken: String,
+  // resetPasswordExpires: Date,
 },{
   timestamps:true
 });

@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import "./Login.scss";
 import { useNavigate, Link } from "react-router-dom";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
-import { AuthContext } from "../../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 
 function Login() {
 
@@ -11,7 +11,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
-  const { login, loading, error } = useContext(AuthContext);
+  const { login, loading, error } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

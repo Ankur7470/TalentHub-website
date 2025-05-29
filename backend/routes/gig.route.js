@@ -1,5 +1,5 @@
 import express from "express";
-import { createGig, deleteGig, getGig, getGigs, updateGig } from "../controllers/gig.controller.js";
+import { createGig, deleteGig, getGig, getGigs, updateGig, getMyGigs } from "../controllers/gig.controller.js";
 import { verifyToken } from "../middleware/jwt.js";
 
 const router = express.Router();
@@ -8,6 +8,7 @@ const router = express.Router();
 router.post("/", verifyToken, createGig);
 router.delete("/:id", verifyToken, deleteGig);
 router.put("/:id", verifyToken, updateGig);
+router.get("/mygigs", verifyToken, getMyGigs);
 
 // Public routes for fetching gigs
 router.get("/single/:id", getGig);

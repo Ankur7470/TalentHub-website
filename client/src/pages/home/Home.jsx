@@ -1,6 +1,6 @@
-import PopularCategories from "../../components/popularCategories/PopularCategories";
 import HeroSection from "../../components/heroSection/HeroSection";
-import Featured from "../../components/featuredProducts/Featured";
+import PopularCategories from "../../components/popularCategories/PopularCategories";
+import FeatureSection from "../../components/featureSection/FeatureSection";
 import MarketPlace from "../../components/marketPlace/MarketPlace";
 
 function Home() {
@@ -9,7 +9,7 @@ function Home() {
     <>
       <HeroSection />
       <PopularCategories />
-      <Featured />
+      <FeatureSection />
       <MarketPlace />
     </>
   );

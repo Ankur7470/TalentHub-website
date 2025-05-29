@@ -5,9 +5,10 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../../utils/api";
 import { FaSearch, FaFilter, FaComment, FaShoppingBag, FaChevronDown } from "react-icons/fa";
 import Loader from "../../components/loader/Loader";
+import useAuth from "../../hooks/useAuth";
 
 const Orders = () => {
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const { currentUser } = useAuth();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all"); // all, active, completed
   const [openFilter, setOpenFilter] = useState(false);

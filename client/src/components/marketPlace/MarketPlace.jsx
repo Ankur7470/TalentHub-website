@@ -9,7 +9,7 @@ const MarketPlace = () => {
         <h2>Explore the marketplace</h2>
         <div className="categories-grid">
           {CATEGORIES.map((category) => (
-            <Link to={`/gigs?cat=${category.value}`} className="category-item">
+            <Link key={category.value} to={`/gigs?cat=${category.value}`} className="category-item">
               <img src={category.image} alt={category.title} />
               <div className="category-title">
                 <span>{category.title}</span>
