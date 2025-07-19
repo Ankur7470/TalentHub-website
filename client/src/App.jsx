@@ -25,6 +25,7 @@ import Privacy from "./pages/privacy/Privacy";
 import Terms from "./pages/TermsOfService/Terms";
 import PageNotFound from "./pages/pageNotFound/PageNotFound";
 import Pay from "./pages/pay/Pay";
+import SuccessPay from "./pages/SuccessPay/SuccessPay";
 import Success from "./pages/success/Success";
 import Profile from "./pages/profile/Profile";
 import Loader from "./components/loader/Loader";
@@ -62,7 +63,7 @@ function App() {
     {
       path: "/",
       element: <Layout />,
-      errorElement: <ErrorFallback />, 
+      errorElement: <ErrorFallback />,
       children: [
         {
           path: "/",
@@ -146,6 +147,14 @@ function App() {
           ),
         },
         {
+          path: "/success-pay",
+          element: (
+            <ProtectedRoute>
+              <SuccessPay />
+            </ProtectedRoute>
+          ),
+        },
+        {
           path: "/success",
           element: (
             <ProtectedRoute>
@@ -186,20 +195,20 @@ function App() {
   ]);
 
   return (
-  <>
-    <RouterProvider router={router} fallbackElement={<Loader />} />
-    <ToastContainer 
-      position="top-right"
-      autoClose={4000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-    />
-  </>
+    <>
+      <RouterProvider router={router} fallbackElement={<Loader />} />
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </>
   );
 }
 

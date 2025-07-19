@@ -1,46 +1,33 @@
-import createError from "../utils/createError.js";
+import Stripe from "stripe";
 import Order from "../models/order.model.js";
 import Gig from "../models/gig.model.js";
-import Stripe from "stripe";
+import createError from "../utils/createError.js";
 
 export const intent = async (req, res, next) => {
   const stripe = new Stripe(process.env.STRIPE);
-
-  const gig = await Gig.findById(req.params.id);
-
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: gig.price * 100,
-    currency: "usd",
-    // automatic_payment_methods: {
-    //   enabled: true,
-    // },
-  });
-
-  const newOrder = new Order({
-    gigId: gig._id,
-    img: gig.cover,
-    title: gig.title,
-    buyerId: req.userId,
-    sellerId: gig.userId,
-    price: gig.price,
-    payment_intent: paymentIntent.id,
-  });
-
-  await newOrder.save();
-
-  res.status(200).send({
-    clientSecret: paymentIntent.client_secret,
-  });
-};
-
-export const getOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({
-      ...(req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId }),
-      isCompleted: true,
+    const gig = await Gig.findById(req.params.id);
+    if (!gig) return next(createError(404, "Gig not found"));
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(gig.price * 1.05 * 100), // Include fee
+      currency: "inr",
+      metadata: { gigId: gig._id, buyerId: req.userId },
     });
 
-    res.status(200).send(orders);
+    const newOrder = new Order({
+      gigId: gig._id,
+      img: gig.cover,
+      title: gig.title,
+      price: gig.price,
+      sellerId: gig.userId,
+      buyerId: req.userId,
+      payment_intent: paymentIntent.id,
+    });
+
+    await newOrder.save();
+
+    res.status(200).send({ clientSecret: paymentIntent.client_secret });
   } catch (err) {
     next(err);
   }
@@ -48,22 +35,54 @@ export const getOrders = async (req, res, next) => {
 
 export const confirm = async (req, res, next) => {
   try {
-    const orders = await Order.findOneAndUpdate(
-      {
-        payment_intent: req.body.payment_intent,
-      },
-      {
-        $set: {
-          isCompleted: true,
-        },
-      }
+    const { payment_intent } = req.body;
+
+    const order = await Order.findOneAndUpdate(
+      { payment_intent },
+      { isCompleted: true }
     );
 
-    res.status(200).send("Order has been confirmed.");
+    if (!order) return next(createError(404, "Order not found"));
+
+    res.status(200).send("Order confirmed");
   } catch (err) {
     next(err);
   }
 };
+
+
+// export const getOrders = async (req, res, next) => {
+//   try {
+//     const orders = await Order.find({
+//       ...(req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId }),
+//       isCompleted: true,
+//     });
+
+//     res.status(200).send(orders);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+export const getOrders = async (req, res, next) => {
+  try {
+    const criteria = {
+      isCompleted: true, // ✅ Only completed orders
+      $or: [
+        { sellerId: req.userId },
+        { buyerId: req.userId },
+      ],
+    };
+
+    const orders = await Order.find(criteria).sort({ createdAt: -1 });
+
+    res.status(200).send(orders);
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 
 export const createOrder = async (req, res, next) => {
   try {

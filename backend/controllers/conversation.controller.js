@@ -1,30 +1,67 @@
-import createError from "../utils/createError.js";
+// import createError from "../utils/createError.js";
+// import Conversation from "../models/conversation.model.js";
+
+// export const createConversation = async (req, res, next) => {
+//   try {
+//     const { to } = req.body;
+    
+//     const sellerId = req.isSeller ? req.userId : to;
+//     const buyerId = req.isSeller ? to : req.userId;
+
+//     const existing = await Conversation.findOne({ sellerId, buyerId });
+//     if (existing) return res.status(200).send(existing);
+
+//     const conv = new Conversation({
+//       sellerId,
+//       buyerId,
+//       readBySeller: false,
+//       readByBuyer: false,
+//       lastMessage: "",
+//     });
+
+//     const saved = await conv.save();
+//     res.status(201).send(saved);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+// controllers/conversation.controller.js
 import Conversation from "../models/conversation.model.js";
+import createError from "../utils/createError.js";
 
 export const createConversation = async (req, res, next) => {
   try {
     const { to } = req.body;
-    
-    const sellerId = req.isSeller ? req.userId : to;
-    const buyerId = req.isSeller ? to : req.userId;
 
-    const existing = await Conversation.findOne({ sellerId, buyerId });
+    if (!to) return next(createError(400, "Missing recipient ID"));
+
+    // Determine buyer and seller
+    const buyerId = req.isSeller ? to : req.userId;
+    const sellerId = req.isSeller ? req.userId : to;
+
+    // Create unique conversation ID for this pair
+    const id = [buyerId, sellerId].sort().join("_");
+
+    // If it already exists, return it
+    const existing = await Conversation.findOne({ id });
     if (existing) return res.status(200).send(existing);
 
-    const conv = new Conversation({
-      sellerId,
+    const newConversation = new Conversation({
+      id,
       buyerId,
-      readBySeller: false,
-      readByBuyer: false,
-      lastMessage: "",
+      sellerId,
+      readByBuyer: req.isSeller ? false : true,
+      readBySeller: req.isSeller ? true : false,
     });
 
-    const saved = await conv.save();
+    const saved = await newConversation.save();
     res.status(201).send(saved);
   } catch (err) {
     next(err);
   }
 };
+
 
 export const getConversations = async (req, res, next) => {
   try {

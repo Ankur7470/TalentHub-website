@@ -66,54 +66,36 @@ function Gig() {
 
   const isSellerViewingOwnGig = currentUser?._id === data?.userId;
 
-
-//  const handleContact = async () => {
-//     if (!currentUser) {
-//       toast.warn("Please log in to contact the seller.");
-//       return;
-//     }
-//     const buyerId = currentUser.isSeller ? currentUser._id : dataUser._id;
-//     const sellerId = currentUser.isSeller ? dataUser._id : currentUser._id;
-//     const conversationId = buyerId + sellerId;
-
-//     try {
-//       const res = await api.get(`/conversations/single/${conversationId}`);
-//       navigate(`/message/${res.data.id}`);
-//     } catch {
-//       const res = await api.post(`/conversations`, { to: dataUser._id });
-//       navigate(`/message/${res.data._id}`);
-//     }
-//   };
   const handleContact = async () => {
-  if (!currentUser) {
-    toast.warn("Please log in to contact the seller.");
-    return;
-  }
-
-  if (currentUser._id === dataUser._id) {
-    toast.info("You cannot contact yourself.");
-    return;
-  }
-
-  try {
-    const res = await api.get("/conversations");
-    const existing = res.data.find(
-      (c) =>
-        (c.sellerId === currentUser._id && c.buyerId === dataUser._id) ||
-        (c.buyerId === currentUser._id && c.sellerId === dataUser._id)
-    );
-
-    if (existing) {
-      navigate(`/message/${existing._id}`);
-    } else {
-      const conv = await api.post("/conversations", { to: dataUser._id });
-      navigate(`/message/${conv.data._id}`);
+    if (!currentUser) {
+      toast.warn("Please log in to contact the seller.");
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    toast.error("Couldn't initiate conversation.");
-  }
-};
+
+    if (currentUser._id === dataUser._id) {
+      toast.info("You cannot contact yourself.");
+      return;
+    }
+
+    try {
+      const res = await api.get("/conversations");
+      const existing = res.data.find(
+        (c) =>
+          (c.sellerId === currentUser._id && c.buyerId === dataUser._id) ||
+          (c.buyerId === currentUser._id && c.sellerId === dataUser._id)
+      );
+
+      if (existing) {
+        navigate(`/message/${existing._id}`);
+      } else {
+        const conv = await api.post("/conversations", { to: dataUser._id });
+        navigate(`/message/${conv.data._id}`);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Couldn't initiate conversation.");
+    }
+  };
 
 
   if (isLoading) return <Loader message="Loading gig details..." />;
@@ -227,28 +209,12 @@ function Gig() {
                           </span>
                         </div>
                       )}
-                      {/* {!isSellerViewingOwnGig && currentUser(
-                        <button className="contact-btn">Contact Me</button>
-                      )} */}
-{/* 
-                      {!isSellerViewingOwnGig && (
+
+                      {currentUser && currentUser._id !== dataUser._id && (
                         <button className="contact-btn" onClick={handleContact}>
                           Contact Me
                         </button>
-                      )} */}
-
-                       {/* {!isLoadingUser && currentUser && currentUser._id !== dataUser._id && (
-      <button className="contact-btn" onClick={handleContact}>
-        Contact Me
-      </button>
-    )} */}
-
-    {currentUser && currentUser._id !== dataUser._id && (
-  <button className="contact-btn" onClick={handleContact}>
-    Contact Me
-  </button>
-)}
-
+                      )}
 
                     </div>
                   </div>
