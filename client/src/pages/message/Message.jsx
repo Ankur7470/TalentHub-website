@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import api from "../../utils/api";
 import "./Message.scss";
@@ -11,16 +11,37 @@ const Message = () => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef(null);
+  const containerRef = useRef(null);
+  const hasMarkedAsRead = useRef(false); 
 
   const queryClient = useQueryClient();
 
+  // Fetch messages
   const { isLoading, error, data } = useQuery({
     queryKey: ["messages", id],
-    queryFn: () =>
-      api.get(`/messages/${id}`).then((res) => res.data),
-    refetchInterval: 5000, // Poll for new messages every 5 seconds
+    queryFn: () => api.get(`/messages/${id}`).then((res) => res.data),
+    refetchInterval: 5000,
   });
 
+  // Fetch conversation details
+  const { data: conversationData } = useQuery({
+    queryKey: ["conversation", id],
+    queryFn: () => api.get(`/conversations/single/${id}`).then((res) => res.data),
+  });
+
+  // Mark as read mutation (without auto-invalidation)
+  const markAsReadMutation = useMutation({
+    mutationFn: () => api.put(`/conversations/${id}`),
+    onSuccess: () => {
+      hasMarkedAsRead.current = true;
+      // Don't invalidate conversations immediately - let polling handle it
+      setTimeout(() => {
+        queryClient.invalidateQueries(["conversations"]);
+      }, 1000);
+    },
+  });
+
+  // Send message mutation
   const mutation = useMutation({
     mutationFn: (message) => {
       return api.post(`/messages`, message);
@@ -31,69 +52,71 @@ const Message = () => {
     },
   });
 
+  // Mark as read logic with proper guards
+  useEffect(() => {
+    if (!conversationData || !currentUser || hasMarkedAsRead.current) return;
+
+    const isCurrentUserSeller = currentUser._id === conversationData.sellerId;
+    const isCurrentUserBuyer = currentUser._id === conversationData.buyerId;
+    
+    if (!isCurrentUserSeller && !isCurrentUserBuyer) return;
+
+    const isUnread = isCurrentUserSeller 
+      ? !conversationData.readBySeller 
+      : !conversationData.readByBuyer;
+
+    if (isUnread && !markAsReadMutation.isLoading) {
+      markAsReadMutation.mutate();
+    }
+  }, [conversationData?.readBySeller, conversationData?.readByBuyer, currentUser._id, id]);
+
+  // Reset read flag when conversation changes
+  useEffect(() => {
+    hasMarkedAsRead.current = false;
+  }, [id]);
+
+  // Auto-scroll to bottom
+  useEffect(() => {
+    if (!data || data.length === 0) return;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const isNearBottom =
+      container.scrollHeight - container.scrollTop <= container.clientHeight + 100;
+
+    if (isNearBottom && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [data?.length]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!message.trim()) return;
 
-    const msgToSend = message; // cache it
-    setMessage(""); // clear input immediately
-
+    const msgToSend = message;
+    setMessage("");
     mutation.mutate({
       conversationId: id,
       desc: msgToSend,
     });
   };
 
-  // Scroll to bottom when messages change
-  // useEffect(() => {
-  //   if (messagesEndRef.current) {
-  //     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  //   }
-  // }, [data]);
-
-  // useEffect(() => {
-  //   if (messagesEndRef.current && data?.length > 0) {
-  //     const lastMessage = data[data.length - 1];
-  //     if (lastMessage?.userId === currentUser._id) {
-  //       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  //     }
-  //   }
-  // }, [data, currentUser._id]);
-
-  useEffect(() => {
-    const container = document.querySelector(".messages-container");
-    const isNearBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 100;
-  
-    if (isNearBottom && messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [data]);
-  
-  
-
-  // Get conversation details
-  const { data: conversationData } = useQuery({
-    queryKey: ["conversation", id],
-    queryFn: () =>
-      api.get(`/conversations/single/${id}`).then((res) => res.data),
-  });
-
-  // Get other user details
-  const otherUserId = conversationData?.sellerId === currentUser._id
-    ? conversationData?.buyerId
-    : conversationData?.sellerId;
+  const otherUserId =
+    conversationData?.sellerId === currentUser._id
+      ? conversationData?.buyerId
+      : conversationData?.sellerId;
 
   const { data: otherUser } = useQuery({
     queryKey: ["user", otherUserId],
-    queryFn: () =>
-      api.get(`/users/${otherUserId}`).then((res) => res.data),
+    queryFn: () => api.get(`/users/${otherUserId}`).then((res) => res.data),
     enabled: !!otherUserId,
   });
 
   const formatDate = (date) => {
     return new Date(date).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit'
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -119,16 +142,18 @@ const Message = () => {
           )}
         </div>
 
-        <div className="messages-container">
+        <div className="messages-container" ref={containerRef}>
           {isLoading ? (
             <Loader message="Loading messages..." />
           ) : error ? (
             <div className="error-message">Error loading messages. Please try again.</div>
           ) : (
             <div className="messages-list">
-              {data.map((m) => (
+              {data?.map((m) => (
                 <div
-                  className={`message ${m.userId === currentUser._id ? "own" : "other"}`}
+                  className={`message ${
+                    m.userId === currentUser._id ? "own" : "other"
+                  }`}
                   key={m._id}
                 >
                   <div className="message-content">
@@ -153,7 +178,7 @@ const Message = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
+              if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
                 handleSubmit(e);
               }
@@ -171,8 +196,6 @@ const Message = () => {
               <FaPaperPlane />
             )}
           </button>
-
-
         </form>
       </div>
     </div>
@@ -180,3 +203,4 @@ const Message = () => {
 };
 
 export default Message;
+

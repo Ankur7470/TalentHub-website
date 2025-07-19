@@ -1,15 +1,26 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import "./Navbar.scss";
 import { CATEGORIES } from "../../constants/categories";
-import { FiMenu, FiX, FiChevronDown, FiUser, FiPackage, FiMessageSquare, FiLogOut } from "react-icons/fi";
+import { useMessages } from "../../context/MessageContext";
+import {
+  FiMenu,
+  FiX,
+  FiChevronDown,
+  FiUser,
+  FiPackage,
+  FiMessageSquare,
+  FiLogOut,
+} from "react-icons/fi";
 
 function Navbar() {
   const [active, setActive] = useState(false);
   const [open, setOpen] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [categories, setCategories] = useState(false);
+
+  const { unreadCount } = useMessages();
 
   const { pathname } = useLocation();
 
@@ -54,14 +65,13 @@ function Navbar() {
         </div>
 
         <div className={`links ${mobileMenu ? "active" : ""}`}>
-          <button
-            className="close-menu"
-            onClick={() => setMobileMenu(false)}
-          >
+          <button className="close-menu" onClick={() => setMobileMenu(false)}>
             <FiX />
           </button>
 
-          <Link to="/gigs" className="link">Explore</Link>
+          <Link to="/gigs" className="link">
+            Explore
+          </Link>
 
           <div className="categories-wrapper">
             <button
@@ -70,10 +80,10 @@ function Navbar() {
             >
               Categories <FiChevronDown />
             </button>
-        
+
             {categories && (
               <div className="categories-dropdown">
-                {CATEGORIES.map(category => (
+                {CATEGORIES.map((category) => (
                   <Link
                     key={category.id}
                     to={`/gigs?cat=${category.id}`}
@@ -87,7 +97,9 @@ function Navbar() {
           </div>
 
           {!currentUser?.isSeller && (
-            <Link to="/become-seller" className="link">Become a Seller</Link>
+            <Link to="/become-seller" className="link">
+              Become a Seller
+            </Link>
           )}
 
           {currentUser ? (
@@ -135,6 +147,9 @@ function Navbar() {
 
                   <Link to="/messages" className="option-link">
                     <FiMessageSquare /> Messages
+                    {unreadCount > 0 && (
+                      <span className="unread-badge">{unreadCount}</span>
+                    )}
                   </Link>
 
                   <button onClick={handleLogout} className="option-link logout">
@@ -145,8 +160,12 @@ function Navbar() {
             </div>
           ) : (
             <div className="auth-buttons">
-              <Link to="/login" className="link">Sign in</Link>
-              <Link to="/register" className="join-button">Join</Link>
+              <Link to="/login" className="link">
+                Sign in
+              </Link>
+              <Link to="/register" className="join-button">
+                Join
+              </Link>
             </div>
           )}
         </div>
@@ -159,11 +178,10 @@ function Navbar() {
         </button>
       </div>
 
-
       {(active || pathname !== "/") && (
         <div className="categories-bar">
           <div className="container">
-            {CATEGORIES.map(category => (
+            {CATEGORIES.map((category) => (
               <Link
                 key={category.id}
                 to={`/gigs?cat=${category.id}`}
@@ -175,7 +193,6 @@ function Navbar() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

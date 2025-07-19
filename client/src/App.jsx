@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from "./context/AuthContext";
 import { GigProvider } from "./context/GigContext";
 import { OrderProvider } from "./context/OrderContext";
+import { MessageProvider } from "./context/MessageContext";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Home from "./pages/home/Home";
@@ -30,7 +31,9 @@ import Loader from "./components/loader/Loader";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import ErrorFallback from "./components/ErrorFallback";
 import ScrollToTop from "./utils/scrollToTop";
-  
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const queryClient = new QueryClient();
 
@@ -41,10 +44,12 @@ function App() {
           <AuthProvider>
             <GigProvider>
               <OrderProvider>
-                <ScrollToTop />
-                <Navbar />
-                <Outlet />
-                <Footer />
+                <MessageProvider>
+                  <ScrollToTop />
+                  <Navbar />
+                  <Outlet />
+                  <Footer />
+                </MessageProvider>
               </OrderProvider>
             </GigProvider>
           </AuthProvider>
@@ -180,7 +185,22 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} fallbackElement={<Loader />} />;
+  return (
+  <>
+    <RouterProvider router={router} fallbackElement={<Loader />} />
+    <ToastContainer 
+      position="top-right"
+      autoClose={4000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
+  </>
+  );
 }
 
 export default App;
